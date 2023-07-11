@@ -1,15 +1,24 @@
-import Characters from "./components/Characters"
-import ContentSection from "./components/ContentSection"
-import Navbar from "./components/Navbar"
+import { useState } from "react"
+import BaseLayout from "./components/layouts/BaseLayout"
+import Characters from "./components/screens/Characters"
+import { Character } from "./types/Character"
+import CharacterDetail from "./components/screens/CharacterDetail"
 
 function App() {
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
+
+  const handleBack = () => {
+    setSelectedCharacter(null)
+  }
+
   return (
-    <main className="bg-gray-950 min-h-screen text-white flex flex-col">
-      <Navbar />
-      <ContentSection title="Characters">
-        <Characters />
-      </ContentSection>
-    </main>
+    <BaseLayout>
+      {selectedCharacter ? (
+        <CharacterDetail character={selectedCharacter} onBackClick={handleBack} />
+      ) : (
+        <Characters onSelectCharacter={setSelectedCharacter} />
+      )}
+    </BaseLayout>
   )
 }
 
